@@ -1,0 +1,1114 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Hexa AI offers a process-first AI workspace with distinct functional routes and elegant execution controls."
+    />
+    <meta name="theme-color" content="#070a14" />
+    <meta property="og:title" content="Hexa AI" />
+    <meta property="og:description" content="A premium process-first AI interface with elegant function routing." />
+    <meta property="og:type" content="website" />
+    <title>Hexa AI</title>
+    <link rel="manifest" href="manifest.webmanifest" />
+    <link rel="icon" type="image/svg+xml" href="assets/icon-192.svg" />
+    <link rel="stylesheet" href="launch.css" />
+  </head>
+  <body>
+    <div class="aurora aurora-a"></div>
+    <div class="aurora aurora-b"></div>
+
+    <div class="shell">
+      <header class="topbar">
+        <a href="#" class="brand">
+          <span class="brand-dot">◈</span>
+          <span>Hexa AI</span>
+          <span class="pill">Process first</span>
+        </a>
+        <nav class="top-links">
+          <a href="#pipeline">Pipeline</a>
+          <a href="#functions">Functions</a>
+          <a href="#providers">Providers</a>
+          <a href="#launch">Launch</a>
+          <a href="#preview">Preview</a>
+          <a href="index.html">App</a>
+          <label class="skin-picker">
+            <span>Clone style</span>
+            <select id="skinSelect">
+              <option value="hybrid">Hybrid 1+2+3</option>
+              <option value="claude">Claude</option>
+              <option value="chatgpt">ChatGPT</option>
+              <option value="perplexity">Perplexity</option>
+            </select>
+          </label>
+          <button id="installBtn" class="btn btn-outline" type="button" disabled>Install</button>
+        </nav>
+      </header>
+
+      <main class="canvas">
+        <section class="hero">
+          <div>
+            <p class="kicker">Workflow engine for modern AI tasks</p>
+            <h1>Elegant function access with visible execution flow.</h1>
+            <p class="hero-copy">
+              Hexa combines five execution functions in one interface and shows how every question is captured, classified,
+              run, and returned as an actionable answer.
+            </p>
+            <div class="hero-actions">
+              <a href="index.html" target="_blank" rel="noopener" class="btn btn-primary">Open full app</a>
+              <button id="copyLinkBtn" class="btn btn-soft" type="button">Copy page link</button>
+            </div>
+          </div>
+          <div class="hero-output">
+            <p class="tiny">Live sample</p>
+            <p>“Draft a 12-week execution plan for a product launch.”</p>
+          </div>
+        </section>
+
+        <section class="split" id="pipeline">
+          <article class="panel workspace">
+            <h2>Function Input</h2>
+            <p>Type any request. Hexa will route it through the process pipeline.</p>
+            <textarea id="queryInput" rows="4" placeholder="Ask for planning, analysis, code help, research, or task automation"></textarea>
+            <div class="quick-inputs">
+              <button class="quick" data-text="Draft a full roadmap for my startup growth in 10 weeks.">Growth roadmap</button>
+              <button class="quick" data-text="Debug flaky API retries and suggest resilient fixes.">Debug API</button>
+              <button class="quick" data-text="Compare provider options for coding and documentation tasks.">Model comparison</button>
+            </div>
+            <label class="control-item" for="policyInput">Execution policy</label>
+            <textarea id="policyInput" rows="2" placeholder="Set strict behavior preferences for this run. Example: concise output, prioritize cited evidence, include validation checks."></textarea>
+            <div class="upload-row">
+              <label class="file-label" for="functionUpload">Function monitor upload</label>
+              <input id="functionUpload" type="file" accept=".js,.ts,.py,.json,.yaml,.yml,.md,.txt,.mjs,.jsx,.tsx,.java,.go,.rb,.php,.cs" />
+              <button id="analyzeUploadBtn" class="btn btn-soft" type="button">Run monitor analysis</button>
+            </div>
+            <p id="uploadStatus" class="tiny upload-status">Upload a file and click Analyze to run Function Monitor.</p>
+            <div class="advanced-controls">
+              <div class="advanced-title">Advanced execution</div>
+              <label class="control-item" for="analysisDepth">Execution depth</label>
+              <div class="slider-row">
+                <input id="analysisDepth" type="range" min="1" max="5" value="3" />
+                <span id="analysisDepthValue">3</span>
+              </div>
+              <label class="control-item" for="providerOverride">Provider override</label>
+              <select id="providerOverride">
+                <option value="auto">Auto by lane</option>
+                <option value="openai">OpenAI / ChatGPT</option>
+                <option value="claude">Anthropic / Claude</option>
+                <option value="deepseek">DeepSeek</option>
+                <option value="gemini">Google / Gemini</option>
+                <option value="perplexity">Perplexity</option>
+                <option value="grok">xAI / Grok</option>
+                <option value="groq">Groq</option>
+                <option value="internal">Internal workflow</option>
+                <option value="custom">Custom endpoint</option>
+              </select>
+              <label class="toggle compact">
+                <input id="benchmarkPass" type="checkbox" checked />
+                <span>Enable benchmark pass</span>
+              </label>
+              <label class="toggle compact">
+                <input id="providerFallback" type="checkbox" checked />
+                <span>Fallback to lane-preferred provider on override miss</span>
+              </label>
+            </div>
+            <div class="pipeline-actions">
+              <button id="runPipelineBtn" class="btn btn-primary" type="button">Run function pipeline</button>
+              <button id="resetPipelineBtn" class="btn btn-soft" type="button">Reset</button>
+            </div>
+            <div class="pipeline-actions" id="resultActions">
+              <button id="copyResultBtn" class="btn btn-outline" type="button">Copy response</button>
+              <button id="shareResultBtn" class="btn btn-soft" type="button">Copy markdown</button>
+              <button id="copyPromptBtn" class="btn btn-outline" type="button">Copy prompt package</button>
+            </div>
+            <div id="routeResult" class="result-card">No request executed yet.</div>
+          </article>
+
+          <article class="panel function-switch" id="functions">
+            <h2>Accessible functions</h2>
+            <p>Pick a function class before execution.</p>
+            <div class="toggle-grid">
+              <label class="toggle">
+                <input type="radio" name="functionType" value="auto" checked />
+                <span>Auto</span>
+              </label>
+              <label class="toggle">
+                <input type="radio" name="functionType" value="chat" />
+                <span>Chat</span>
+              </label>
+              <label class="toggle">
+                <input type="radio" name="functionType" value="reasoning" />
+                <span>Reasoning</span>
+              </label>
+              <label class="toggle">
+                <input type="radio" name="functionType" value="search" />
+                <span>Search</span>
+              </label>
+              <label class="toggle">
+                <input type="radio" name="functionType" value="code" />
+                <span>Code</span>
+              </label>
+              <label class="toggle">
+                <input type="radio" name="functionType" value="workflow" />
+                <span>Workflow</span>
+              </label>
+            </div>
+
+            <div class="status-block">
+              <p>Current function</p>
+              <strong id="selectedFunction">Auto</strong>
+            </div>
+            <div class="status-block">
+              <p>Confidence</p>
+              <strong id="currentConfidence">—</strong>
+            </div>
+            <div class="status-block">
+              <p>Provider lane</p>
+              <strong id="activeProvider">auto</strong>
+            </div>
+            <div class="status-block skin-block">
+              <p>Active visual clone</p>
+              <strong id="activeSkin">Hybrid 1+2+3</strong>
+            </div>
+
+            <div class="process-keypad">
+              <p class="key-note">Process keys</p>
+              <p>1 chat, 2 reasoning, 3 search, 4 code, 5 workflow, Enter run, Esc reset</p>
+              <p class="key-note">Theme keys</p>
+              <p>Shift + 1 (Claude), Shift + 2 (ChatGPT), Shift + 3 (Perplexity)</p>
+              <div class="key-grid">
+                <button class="process-key" data-key="1" data-mode="chat" type="button">1</button>
+                <button class="process-key" data-key="2" data-mode="reason" type="button">2</button>
+                <button class="process-key" data-key="3" data-mode="search" type="button">3</button>
+                <button class="process-key" data-key="4" data-mode="code" type="button">4</button>
+                <button class="process-key" data-key="5" data-mode="workflow" type="button">5</button>
+              </div>
+            </div>
+            <div class="history-area">
+              <p class="key-note">Execution history</p>
+              <ul id="runHistory" class="run-history">
+                <li class="run-history-item muted">No runs yet.</li>
+              </ul>
+            </div>
+          </article>
+        </section>
+
+        <section class="rail" id="functionsPanel">
+          <h2>Execution process</h2>
+          <div class="rail-steps">
+            <article class="step-card" data-stage="capture">
+              <p class="step-label">1. Capture</p>
+              <h3>Input + context</h3>
+              <p>Normalize request and identify constraints.</p>
+              <small>Waiting</small>
+            </article>
+            <article class="step-card" data-stage="route">
+              <p class="step-label">2. Route</p>
+              <h3>Function selection</h3>
+              <p>Select the most relevant function group and model lane.</p>
+              <small>Waiting</small>
+            </article>
+            <article class="step-card" data-stage="execute">
+              <p class="step-label">3. Execute</p>
+              <h3>Processing engine</h3>
+              <p>Run reasoning, search, or execution logic as needed.</p>
+              <small>Waiting</small>
+            </article>
+            <article class="step-card" data-stage="return">
+              <p class="step-label">4. Return</p>
+              <h3>Deliver response</h3>
+              <p>Summarize result with clear, actionable next steps.</p>
+              <small>Waiting</small>
+            </article>
+          </div>
+        </section>
+
+        <section class="feature-panel">
+          <article>
+            <h3>Predictable output</h3>
+            <p>Every request follows a consistent process and finishes with action items.</p>
+          </article>
+          <article>
+            <h3>Adaptive routing</h3>
+            <p>Keyword-aware lane detection changes function choice dynamically.</p>
+          </article>
+          <article>
+            <h3>Provider-aware</h3>
+            <p>Function lanes can map to different providers in one workspace.</p>
+          </article>
+          <article>
+            <h3>Operational mode</h3>
+            <p>Designed to move from concept to workflow in practical steps.</p>
+          </article>
+        </section>
+
+        <section class="provider-row" id="providers">
+          <h2>Provider lattice</h2>
+          <div class="provider-grid">
+            <span>OpenAI / ChatGPT</span>
+            <span>Anthropic / Claude</span>
+            <span>DeepSeek</span>
+            <span>Google / Gemini</span>
+            <span>Perplexity</span>
+            <span>xAI / Grok</span>
+            <span>Groq</span>
+            <span>Custom endpoint</span>
+          </div>
+        </section>
+
+        <section class="host-hub" id="launch">
+          <h2>Local launch</h2>
+          <p>Open this via localhost for full PWA behavior and install reliability.</p>
+          <div class="host-command">
+            <code id="localCommand">cd /path/to/hexa-ai && python3 -m http.server 4173</code>
+            <button id="copyCommandBtn" class="btn btn-outline" type="button">Copy command</button>
+          </div>
+          <div class="host-command">
+            <code id="localHostLink">http://localhost:4173/launch.html</code>
+            <button id="copyLocalLinkBtn" class="btn btn-soft" type="button">Copy link</button>
+            <a id="localPreviewLink" href="http://localhost:4173/launch.html" target="_blank" rel="noopener">Open localhost</a>
+          </div>
+        </section>
+
+        <section class="preview" id="preview">
+          <div class="preview-head">
+            <h2>App preview</h2>
+            <a href="index.html" target="_blank" rel="noopener">Open full app</a>
+          </div>
+          <iframe src="index.html" title="Hexa app preview" loading="lazy" allow="clipboard-write" sandbox="allow-scripts allow-same-origin allow-forms allow-popups"></iframe>
+        </section>
+      </main>
+    </div>
+
+    <script>
+      const installButton = document.getElementById("installBtn");
+      const copyLinkButton = document.getElementById("copyLinkBtn");
+      const queryInput = document.getElementById("queryInput");
+      const runPipelineBtn = document.getElementById("runPipelineBtn");
+      const resetPipelineBtn = document.getElementById("resetPipelineBtn");
+      const routeResult = document.getElementById("routeResult");
+      const quickButtons = document.querySelectorAll(".quick");
+      const processKeyButtons = document.querySelectorAll(".process-key");
+      const functionRadios = document.querySelectorAll('input[name="functionType"]');
+      const selectedFunction = document.getElementById("selectedFunction");
+      const stepCards = document.querySelectorAll(".step-card");
+      const shell = document.querySelector(".shell");
+      const skinSelect = document.getElementById("skinSelect");
+      const activeSkin = document.getElementById("activeSkin");
+      const functionUpload = document.getElementById("functionUpload");
+      const analyzeUploadBtn = document.getElementById("analyzeUploadBtn");
+      const uploadStatus = document.getElementById("uploadStatus");
+      const copyResultBtn = document.getElementById("copyResultBtn");
+      const shareResultBtn = document.getElementById("shareResultBtn");
+      const copyPromptBtn = document.getElementById("copyPromptBtn");
+      const analysisDepth = document.getElementById("analysisDepth");
+      const analysisDepthValue = document.getElementById("analysisDepthValue");
+      const benchmarkPass = document.getElementById("benchmarkPass");
+      const providerOverride = document.getElementById("providerOverride");
+      const providerFallback = document.getElementById("providerFallback");
+      const policyInput = document.getElementById("policyInput");
+      const currentConfidence = document.getElementById("currentConfidence");
+      const activeProvider = document.getElementById("activeProvider");
+      const runHistory = document.getElementById("runHistory");
+      const localCommand = document.getElementById("localCommand");
+      const localHostLink = document.getElementById("localHostLink");
+      const copyCommandBtn = document.getElementById("copyCommandBtn");
+      const copyLocalLinkBtn = document.getElementById("copyLocalLinkBtn");
+      const localPreviewLink = document.getElementById("localPreviewLink");
+      const body = document.body;
+
+      let latestPayload = null;
+
+      const reasoningMode = {
+        modeLabel: "Reasoning",
+        keywords: ["analyze", "decision", "compare", "risk", "tradeoff", "evaluate", "strategy", "roadmap", "plan"],
+        provider: "Claude / DeepSeek",
+        description: "Structured reasoning with assumptions and tradeoffs.",
+        color: "var(--mode-reason)",
+        accent: "#b7a3ff",
+      };
+
+      const providerDirectory = {
+        auto: "local|default",
+        openai: "openai|gpt-4o-mini",
+        claude: "anthropic|claude-3.5-sonnet",
+        deepseek: "deepseek|deepseek-coder",
+        gemini: "google|gemini-2.0-flash",
+        perplexity: "perplexity|sonar-pro",
+        grok: "xai|grok-2",
+        groq: "groq|llama-3.3-70b",
+        internal: "internal|orchestrator",
+        custom: "custom|endpoint",
+      };
+
+      const providerRoute = {
+        chat: ["openai", "gemini", "claude", "groq", "deepseek"],
+        reasoning: ["claude", "perplexity", "deepseek", "openai", "gemini"],
+        search: ["perplexity", "groq", "grok", "openai", "gemini"],
+        code: ["deepseek", "openai", "groq", "claude", "custom"],
+        workflow: ["internal", "groq", "custom", "openai"],
+      };
+
+      const modeMap = {
+        chat: {
+          keywords: ["clarify", "draft", "summarize", "write", "message", "explain", "help", "story", "email"],
+          provider: "ChatGPT / Gemini",
+          description: "Short conversational answer with user-focused structure.",
+          color: "var(--mode-chat)",
+          accent: "#66e0ff",
+        },
+        reason: reasoningMode,
+        reasoning: reasoningMode,
+        search: {
+          keywords: ["latest", "market", "source", "research", "trend", "evidence", "reference", "news", "compare"],
+          provider: "Perplexity / Grok",
+          description: "Reference-minded research path with synthesis.",
+          color: "var(--mode-search)",
+          accent: "#7ff1d9",
+        },
+        code: {
+          keywords: ["code", "debug", "api", "error", "function", "typescript", "python", "javascript", "sql", "deploy", "refactor"],
+          provider: "Code-focused model stack",
+          description: "Problem diagnosis and implementation-first recommendations.",
+          color: "var(--mode-code)",
+          accent: "#f9a06f",
+        },
+        workflow: {
+          keywords: ["automate", "workflow", "pipeline", "checklist", "process", "execute", "task", "orchestrate", "schedule"],
+          provider: "Tool and task layer",
+          description: "Action sequence generation and dependency-aware execution.",
+          color: "var(--mode-workflow)",
+          accent: "#5fd2a4",
+        },
+      };
+
+      const hexaLanes = ["capture", "route", "execute", "return"];
+
+      const hexaProviderByMode = (mode) => {
+        const lane = providerOverride ? providerOverride.value || "auto" : "auto";
+        const normalized = mode === "reason" ? "reasoning" : mode;
+        const fallback = providerRoute[normalized] || ["internal", "openai", "custom"];
+        if (lane !== "auto" && providerDirectory[lane]) {
+          return providerDirectory[lane];
+        }
+        if (lane !== "auto" && providerFallback?.checked && providerDirectory[fallback[0]]) {
+          return providerDirectory[fallback[0]];
+        }
+        return lane === "auto" ? providerDirectory[fallback[0]] || providerDirectory.internal : providerDirectory[lane] || providerDirectory.internal;
+      };
+
+      const scoreProviderSignals = (mode, text) => {
+        const normalizedMode = mode === "reason" ? "reasoning" : mode;
+        const normalized = (text || "").toLowerCase();
+        const chars = normalized.length;
+        const tokens = normalized ? normalized.split(/\s+/).filter(Boolean).length : 0;
+        const indicators = {
+          confidenceBoost: 0,
+          codeRisk: 0,
+          complexity: 0,
+          benchmark: 0,
+        };
+
+        if (normalizedMode === "code") {
+          indicators.codeRisk += /api\.|error|exception|stack|deploy|sql|async|await/.test(normalized) ? 6 : 0;
+          indicators.complexity += Math.min(28, Math.floor(tokens / 9));
+        }
+
+        if (normalizedMode === "reasoning") {
+          indicators.complexity += Math.min(24, tokens > 120 ? 20 : Math.floor(tokens / 6));
+          indicators.confidenceBoost += normalized.includes("compare") ? 9 : 0;
+        }
+
+        if (normalizedMode === "search") {
+          indicators.benchmark += normalized.includes("source") || normalized.includes("evidence") ? 12 : 0;
+          indicators.complexity += normalized.includes("latest") ? 8 : 0;
+        }
+
+        if (normalizedMode === "chat") {
+          indicators.confidenceBoost += normalized.includes("concise") || normalized.includes("short") ? 7 : 0;
+        }
+
+        if (normalizedMode === "workflow") {
+          indicators.complexity += normalized.includes("automate") || normalized.includes("orchestrate") ? 10 : 0;
+          indicators.benchmark += normalized.includes("deadline") ? 5 : 0;
+        }
+
+        return {
+          chars,
+          tokens,
+          mode,
+          ...indicators,
+        };
+      };
+
+      const clampConfidence = (value) => Math.max(0, Math.min(100, Math.round(value)));
+
+      const buildStructuredReply = (mode, confidence, config, text, provider) => {
+        const normalized = (text || "").trim();
+        const lower = normalized.toLowerCase();
+        const normalizedMode = mode === "reason" ? "reasoning" : mode;
+        const safeConfig = config || modeMap.workflow;
+        const askQuestion = confidence < 70;
+        const hasQuestion = /\?/g.test(normalized);
+        const policyText = policyInput && policyInput.value ? policyInput.value.trim() : "";
+        const policyEffect = policyText.length ? Math.min(7, Math.floor(policyText.length / 20)) : 0;
+        const monitorSignals = scoreProviderSignals(normalizedMode, lower);
+        const depth = Number((analysisDepth && analysisDepth.value) || 3);
+        const benchmarkMode = benchmarkPass ? !!benchmarkPass.checked : false;
+
+        const summary = `Mode ${normalizedMode.toUpperCase()} was selected for this request.`;
+        const artifact = safeConfig.description;
+        const assumptions = [];
+        const risks = [];
+        const next_steps = [];
+
+        if (mode === "chat") {
+          next_steps.push("Respond in concise language and tone.", "Offer 2-3 direct follow-up options.");
+          assumptions.push("User prefers a short conversational result.");
+          risks.push("Lack of strict constraints may reduce precision.");
+        }
+
+        if (mode === "reason" || mode === "reasoning") {
+          next_steps.push("List assumptions.", "Produce a decision matrix or tradeoff list.", "State validation checks.");
+          assumptions.push("Objective can be represented as compare/decision format.");
+          risks.push("Overfitting to inferred constraints.");
+        }
+
+        if (mode === "search") {
+          next_steps.push("Plan query angles.", "Group evidence by reliability.", "Synthesize a brief conclusion.");
+          assumptions.push("User accepts high-level research synthesis path.");
+          risks.push("Freshness depends on available sources.");
+        }
+
+        if (mode === "code") {
+          next_steps.push("Identify expected runtime and platform.", "Provide a minimal working patch.", "Call out test command.");
+          assumptions.push("User has an execution environment for the proposed stack.");
+          risks.push("Implementation may need environment-specific fixes.");
+        }
+
+        if (mode === "workflow") {
+          next_steps.push("Build checklist with owners.", "Define dependencies and order.", "Set acceptance criteria per step.");
+          assumptions.push("Execution context can host task automation.");
+          risks.push("Human dependency can break sequencing.");
+        }
+
+        if (!hasQuestion && lower.includes("unclear")) {
+          next_steps.unshift("Add explicit constraints and success criteria.");
+        }
+
+        if (askQuestion) {
+          next_steps.unshift("Confirm goal scope before final output.");
+          assumptions.push("Intent confidence is low for auto-routing.");
+          risks.push("False mode selection can degrade output quality.");
+        }
+
+        const response_text = askQuestion
+          ? `I detected this as ${normalizedMode.toUpperCase()} with ${confidence}% confidence. Please confirm goal, scope, and output format so we can finalize safely.`
+          : `Executed ${normalizedMode.toUpperCase()} lane with ${safeConfig.description}`;
+
+        const monitorScore = clampConfidence(
+          45 +
+            monitorSignals.confidenceBoost -
+              (monitorSignals.codeRisk > 0 ? 6 : 0) +
+              Math.min(25, Math.floor(monitorSignals.tokens / 8)) +
+              depth * 4 +
+              (benchmarkMode ? 6 : 0) +
+              policyEffect,
+        );
+
+        return {
+          mode: normalizedMode,
+          confidence,
+          provider: provider || hexaProviderByMode(normalizedMode),
+          lanes: hexaLanes,
+          output: {
+            summary,
+            artifact,
+            monitor_score: monitorScore,
+            depth,
+            benchmark_pass: benchmarkMode,
+            tokens: monitorSignals.tokens,
+            policy_applied: policyText || "Default Hexa policy.",
+            next_steps,
+            risks,
+            assumptions,
+            monitor_signals: {
+              chars: monitorSignals.chars,
+              tokens: monitorSignals.tokens,
+              complexity_score: clampConfidence(40 + monitorSignals.complexity),
+              benchmark_score: clampConfidence(50 + monitorSignals.benchmark),
+              risk_score: clampConfidence(100 - monitorSignals.codeRisk),
+            },
+          },
+          response_text,
+        };
+      };
+
+      const updateStatus = (payload) => {
+        if (!payload) {
+          return;
+        }
+        if (currentConfidence) {
+          currentConfidence.textContent = `${payload.confidence}%`;
+        }
+        if (activeProvider) {
+          activeProvider.textContent = payload.provider || "local|default";
+        }
+      };
+
+      const updateRunHistory = (payload) => {
+        if (!runHistory) {
+          return;
+        }
+        if (runHistory.querySelector(".muted")) {
+          runHistory.textContent = "";
+        }
+
+        const row = document.createElement("li");
+        row.className = "run-history-item";
+        const stamp = new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+        row.innerHTML = `<span class="run-time">${stamp}</span><span class="run-mode">${payload.mode.toUpperCase()}</span><span class="run-confidence">${payload.confidence}%</span><span class="run-summary">${payload.output.summary}</span>`;
+        runHistory.appendChild(row);
+        while (runHistory.children.length > 6) {
+          runHistory.removeChild(runHistory.firstChild);
+        }
+      };
+
+      const buildEmptyPayload = () => {
+        const depth = Number((analysisDepth && analysisDepth.value) || 3);
+        const benchmark = benchmarkPass ? !!benchmarkPass.checked : false;
+        return {
+          mode: "chat",
+          confidence: 12,
+          provider: hexaProviderByMode("chat"),
+          lanes: hexaLanes,
+          output: {
+            summary: "No clear request found.",
+            artifact: "Please provide a goal, context, and constraints.",
+            monitor_score: 12,
+            depth,
+            benchmark_pass: benchmark,
+            tokens: 0,
+            next_steps: [
+              "Tell me your goal.",
+              "Add constraints and quality criteria.",
+              "Choose mode: chat, reasoning, search, code, workflow.",
+            ],
+            risks: ["Ambiguous input can route to wrong mode."],
+            assumptions: ["The user intent is still incomplete."],
+            monitor_signals: {
+              chars: 0,
+              tokens: 0,
+              complexity_score: 40,
+              benchmark_score: 50,
+              risk_score: 70,
+            },
+          },
+          response_text: "I can help. Share your target outcome and I will route it using strict Hexa mode logic.",
+        };
+      };
+
+      const deriveLocalPreview = () => {
+        if (window.location.protocol !== "file:") {
+          return { directory: "/path/to/hexa-ai", link: "/launch.html" };
+        }
+        const path = decodeURIComponent(new URL(window.location.href).pathname);
+        const directory = path.replace(/[^/]*$/, "");
+        const parts = directory.split("/").filter(Boolean);
+        const marker = parts.lastIndexOf("hexa-ai");
+        const relative = marker === -1 ? ["launch.html"] : [...parts.slice(marker), "launch.html"];
+        return { directory, link: `/${relative.join("/")}` };
+      };
+
+      const syncLocalLaunchPanel = () => {
+        const info = deriveLocalPreview();
+        if (localCommand) {
+          const safeDirectory = info.directory || "/path/to/hexa-ai";
+          localCommand.textContent = `cd "${safeDirectory}" && python3 -m http.server 4173`;
+        }
+        if (localHostLink) {
+          const localLink = `http://localhost:4173${info.link.startsWith("/") ? info.link : `/${info.link}`}`;
+          localHostLink.textContent = localLink;
+          if (localPreviewLink) {
+            localPreviewLink.href = localLink;
+          }
+        }
+      };
+
+      const skinMap = {
+        hybrid: {
+          label: "Hybrid 1+2+3",
+          className: "skin-hybrid",
+        },
+        claude: {
+          label: "Claude",
+          className: "skin-claude",
+        },
+        chatgpt: {
+          label: "ChatGPT",
+          className: "skin-chatgpt",
+        },
+        perplexity: {
+          label: "Perplexity",
+          className: "skin-perplexity",
+        },
+      };
+
+      const applySkin = (skin) => {
+        const target = skinMap[skin] || skinMap.hybrid;
+        const current = document.querySelector(".skin-claude, .skin-chatgpt, .skin-perplexity, .skin-hybrid");
+        if (current) {
+          current.classList.remove("skin-claude", "skin-chatgpt", "skin-perplexity", "skin-hybrid");
+        }
+
+        body.classList.add(target.className);
+        activeSkin.textContent = target.label;
+      };
+
+      const applySkinFromShortcut = (key) => {
+        const map = {
+          "1": "claude",
+          "2": "chatgpt",
+          "3": "perplexity",
+        };
+        if (!map[key]) return;
+        const option = skinSelect.querySelector(`option[value="${map[key]}"]`);
+        if (!option) return;
+        option.selected = true;
+        applySkin(map[key]);
+      };
+
+      const autoDetectFunction = (text) => {
+        const normalized = (text || "").toLowerCase();
+        let bestMode = "workflow";
+        let bestScore = -1;
+
+        Object.entries(modeMap).forEach(([mode, cfg]) => {
+          const score = cfg.keywords.reduce((total, key) => total + (normalized.includes(key) ? 1 : 0), 0);
+          if (score > bestScore) {
+            bestScore = score;
+            bestMode = mode;
+          }
+        });
+
+        if (normalized.includes("why") || normalized.includes("explain") || normalized.includes("help")) {
+          bestMode = "chat";
+          bestScore = Math.max(bestScore, 1);
+        }
+
+        if (normalized.includes("deploy") || normalized.includes("api") || normalized.includes("error")) {
+          bestMode = "code";
+          bestScore = Math.max(bestScore, 2);
+        }
+
+        if (normalized.includes("compare") || normalized.includes("tradeoff") || normalized.includes("risk")) {
+          bestMode = "reasoning";
+          bestScore = Math.max(bestScore, 2);
+        }
+
+        const minConfidence = 38;
+        const maxByDepth = Number((analysisDepth && analysisDepth.value) || 3);
+        const depthPenalty = Math.max(0, 2 - maxByDepth);
+
+        return {
+          mode: bestMode,
+          confidence: clampConfidence(minConfidence + bestScore * 8 - depthPenalty),
+          ...modeMap[bestMode],
+        };
+      };
+
+      const setFunction = (mode) => {
+        const display = mode === "auto" ? "Auto" : mode === "reasoning" || mode === "reason" ? "Reasoning" : mode.charAt(0).toUpperCase() + mode.slice(1);
+        selectedFunction.textContent = display;
+        functionRadios.forEach((radio) => {
+          radio.checked = radio.value === mode;
+        });
+
+        processKeyButtons.forEach((button) => {
+          button.classList.toggle("active", button.dataset.mode === mode);
+        });
+
+        if (shell) {
+          const activeMode = mode === "auto" ? "workflow" : mode;
+          const palette = modeMap[activeMode] || modeMap.workflow;
+          shell.style.setProperty("--active-mode", palette.color);
+          shell.style.setProperty("--active-accent", palette.accent);
+        }
+      };
+
+      const setStepState = (stage, state) => {
+        const card = [...stepCards].find((item) => item.dataset.stage === stage);
+        if (!card) return;
+        card.classList.remove("step-wait", "step-run", "step-done");
+        card.classList.add(`step-${state}`);
+        const label = card.querySelector("small");
+        if (label) {
+          label.textContent = state === "run" ? "Running" : state === "done" ? "Done" : "Waiting";
+        }
+      };
+
+      const resetPipeline = () => {
+        routeResult.textContent = "No request executed yet.";
+        stepCards.forEach((card) => {
+          card.classList.remove("step-run", "step-done");
+          card.classList.add("step-wait");
+          const label = card.querySelector("small");
+          if (label) {
+            label.textContent = "Waiting";
+          }
+        });
+      };
+
+      const buildFunctionMonitorPayload = (file, content) => {
+        const name = file?.name || "uploaded-function";
+        const kind = file?.type || "text/plain";
+        const raw = (content || "").replace(/[\u0000-\u001f\u007f-\u009f]/g, " ").trim();
+        const words = raw ? raw.split(/\s+/).filter(Boolean).length : 0;
+        const lines = raw ? raw.split("\n").length : 0;
+        const snippet = raw.slice(0, 1400);
+        return `Analyze this function-like artifact for monitoring and safety readiness.\n\nFILE: ${name}\nTYPE: ${kind}\nLINES: ${lines}\nWORDS: ${words}\nSIZE: ${raw.length}\n\nCHECKLIST:\n- Runtime risk\n- Input validation\n- Failure modes\n- Error handling quality\n- Testability\n- Deployment considerations\n\nSNIPPET:\n${snippet}`;
+      };
+
+      const readUploadedFunction = async () => {
+        const file = functionUpload && functionUpload.files ? functionUpload.files[0] : null;
+        if (!file) {
+          uploadStatus.textContent = "No file selected. Pick a file first.";
+          return { file: null, text: "" };
+        }
+
+        if (!file.type && !file.name) {
+          uploadStatus.textContent = "Unsupported file object.";
+          return { file: null, text: "" };
+        }
+
+        uploadStatus.textContent = `Analyzing upload: ${file.name}`;
+        const text = await file.text();
+        const payload = buildFunctionMonitorPayload(file, text);
+        uploadStatus.textContent = `Loaded ${file.name} (${text.length} chars).`;
+        return { file, text: payload };
+      };
+
+      const runPipeline = (seedText = null, forcedMode = null) => {
+        const text = (seedText ?? queryInput.value).trim();
+        if (!text) {
+          const emptyPayload = buildEmptyPayload();
+          emptyPayload.output.timeline = { capture_ms: 120, route_ms: 0, execute_ms: 0, return_ms: 0 };
+          emptyPayload.output.monitor_signals.risk_score = 66;
+          routeResult.innerHTML = `<pre class="json-output">${JSON.stringify(emptyPayload, null, 2)}</pre>`;
+          latestPayload = emptyPayload;
+          updateStatus(emptyPayload);
+          updateRunHistory(emptyPayload);
+          return;
+        }
+
+        const forced = forcedMode || [...functionRadios].find((r) => r.checked)?.value || "workflow";
+        const detected = autoDetectFunction(text);
+        const activeMode = forced === "auto" ? detected.mode : forced;
+        const routedMode = activeMode === "reasoning" ? "reason" : activeMode;
+        const config = modeMap[routedMode] || modeMap.workflow;
+        const confidence = forced === "auto" ? detected.confidence : 96;
+        const provider = hexaProviderByMode(routedMode);
+        const depth = Number((analysisDepth && analysisDepth.value) || 3);
+        const benchmark = benchmarkPass ? !!benchmarkPass.checked : false;
+        const pipelineTrace = {
+          capture_ms: 200 + depth * 32,
+          route_ms: 180 + depth * 34,
+          execute_ms: 180 + depth * 72 + (benchmark ? 130 : 0),
+          return_ms: 120 + depth * 18,
+        };
+        const payload = buildStructuredReply(routedMode, confidence, config, text, provider);
+        payload.output.timeline = pipelineTrace;
+        updateStatus(payload);
+
+        routeResult.innerHTML = `<pre class="json-output">${JSON.stringify(payload, null, 2)}</pre>`;
+        latestPayload = payload;
+
+        setFunction(routedMode);
+
+        const runningMessage = `${routedMode.toUpperCase()} route started with ${payload.confidence}% confidence`;
+        setTimeout(() => {
+          routeResult.innerHTML = `<pre class="running-message">${runningMessage}</pre>`;
+        }, 1);
+
+        setStepState("capture", "run");
+
+        const stageOne = Math.min(420, Math.max(120, pipelineTrace.capture_ms));
+        const stageTwo = Math.min(520, Math.max(160, pipelineTrace.route_ms));
+        const stageThree = Math.min(780, Math.max(220, pipelineTrace.execute_ms));
+        const stageFour = Math.min(360, Math.max(120, pipelineTrace.return_ms));
+
+        setTimeout(() => {
+          setStepState("capture", "done");
+          setStepState("route", "run");
+          setTimeout(() => {
+            setStepState("route", "done");
+            setStepState("execute", "run");
+            setTimeout(() => {
+              setStepState("execute", "done");
+              setStepState("return", "run");
+
+              const finalPayload = buildStructuredReply(routedMode, confidence, config, text, provider);
+              finalPayload.output.timeline = pipelineTrace;
+              latestPayload = finalPayload;
+              updateStatus(finalPayload);
+              updateRunHistory(finalPayload);
+              routeResult.innerHTML = `<pre class="json-output">${JSON.stringify(finalPayload, null, 2)}</pre>`;
+
+              setTimeout(() => {
+                setStepState("return", "done");
+              }, stageFour);
+            }, stageThree);
+          }, stageTwo);
+        }, stageOne);
+      };
+
+      runPipelineBtn.addEventListener("click", runPipeline);
+
+      resetPipelineBtn.addEventListener("click", () => {
+        queryInput.value = "";
+        resetPipeline();
+      });
+
+      quickButtons.forEach((button) => {
+        button.addEventListener("click", () => {
+          const text = button.dataset.text || "";
+          queryInput.value = text;
+          runPipeline();
+        });
+      });
+
+      analyzeUploadBtn?.addEventListener("click", async () => {
+        try {
+          const { file, text } = await readUploadedFunction();
+          if (!file || !text) {
+            return;
+          }
+          queryInput.value = `[FILE MONITOR INPUT]\n${text}`;
+          setFunction("workflow");
+          runPipeline(queryInput.value, "workflow");
+        } catch {
+          uploadStatus.textContent = "Upload analysis failed. Use plain text in input as fallback.";
+          runPipeline();
+        }
+      });
+
+      processKeyButtons.forEach((button) => {
+        button.addEventListener("click", () => {
+          const mode = button.dataset.mode;
+          if (mode) {
+            setFunction(mode);
+          }
+        });
+      });
+
+      functionRadios.forEach((radio) => {
+        radio.addEventListener("change", (event) => {
+          setFunction(event.target.value);
+          if (queryInput.value.trim()) {
+            runPipeline();
+          }
+        });
+      });
+
+      document.addEventListener("keydown", (event) => {
+        const isStyleShortcut =
+          event.target &&
+          event.target.tagName &&
+          event.target.tagName !== "INPUT" &&
+          event.target.tagName !== "TEXTAREA" &&
+          (event.shiftKey || event.altKey) &&
+          ["1", "2", "3"].includes(event.key);
+
+        if (isStyleShortcut) {
+          event.preventDefault();
+          applySkinFromShortcut(event.key);
+          return;
+        }
+
+        if (event.key === "Escape") {
+          queryInput.value = "";
+          resetPipeline();
+          return;
+        }
+
+        if (document.activeElement && (document.activeElement.tagName === "TEXTAREA" || document.activeElement.tagName === "INPUT")) {
+          if (event.key === "Enter") {
+            if (event.shiftKey) {
+              return;
+            }
+            event.preventDefault();
+            runPipeline();
+          }
+          return;
+        }
+
+        const isFunctionKey = {
+          "1": "chat",
+          "2": "reason",
+          "3": "search",
+          "4": "code",
+          "5": "workflow",
+        };
+
+        if (Object.prototype.hasOwnProperty.call(isFunctionKey, event.key)) {
+          setFunction(isFunctionKey[event.key]);
+          return;
+        }
+
+        if (event.key === "Enter") {
+          runPipeline();
+        }
+      });
+
+      let installPrompt;
+      window.addEventListener("beforeinstallprompt", (event) => {
+        event.preventDefault();
+        installPrompt = event;
+        installButton.disabled = false;
+      });
+
+      installButton.addEventListener("click", async () => {
+        if (!installPrompt) {
+          alert("Install is not available in this browser context.");
+          return;
+        }
+        await installPrompt.prompt();
+        const choice = await installPrompt.userChoice;
+        if (choice?.outcome === "accepted") {
+          installButton.textContent = "Installed";
+          installButton.disabled = true;
+        }
+      });
+
+      copyLinkButton.addEventListener("click", async () => {
+        try {
+          await navigator.clipboard.writeText(window.location.href);
+          copyLinkButton.textContent = "Copied";
+          setTimeout(() => (copyLinkButton.textContent = "Copy page link"), 1600);
+        } catch {
+          window.location.href = window.location.href;
+        }
+      });
+
+      if ("serviceWorker" in navigator) {
+        navigator.serviceWorker.register("./sw.js").catch(() => {});
+      }
+
+      skinSelect.addEventListener("change", (event) => {
+        applySkin(event.target.value);
+      });
+
+      analysisDepth?.addEventListener("input", () => {
+        if (analysisDepthValue) {
+          analysisDepthValue.textContent = analysisDepth.value;
+        }
+      });
+
+      providerOverride?.addEventListener("change", () => {
+        if (queryInput.value.trim()) {
+          runPipeline();
+        }
+      });
+
+      providerFallback?.addEventListener("change", () => {
+        if (queryInput.value.trim()) {
+          runPipeline();
+        }
+      });
+
+      copyPromptBtn?.addEventListener("click", async () => {
+        if (!latestPayload) {
+          return;
+        }
+        const promptPayload = {
+          prompt: queryInput.value.trim(),
+          mode: latestPayload.mode,
+          provider: latestPayload.provider,
+          lanes: latestPayload.lanes,
+          strict_output: {
+            mode: true,
+            confidence: true,
+            provider: true,
+            lanes: true,
+            output: ["summary", "artifact", "next_steps", "risks", "assumptions"],
+          },
+          confidence: latestPayload.confidence,
+          response_text: latestPayload.response_text,
+          policy: policyInput?.value || "default",
+        };
+        try {
+          await navigator.clipboard.writeText(JSON.stringify(promptPayload, null, 2));
+          copyPromptBtn.textContent = "Prompt copied";
+          setTimeout(() => (copyPromptBtn.textContent = "Copy prompt package"), 1600);
+        } catch {
+          copyPromptBtn.textContent = "Copy failed";
+          setTimeout(() => (copyPromptBtn.textContent = "Copy prompt package"), 1600);
+        }
+      });
+
+      copyResultBtn?.addEventListener("click", async () => {
+        if (!latestPayload) {
+          return;
+        }
+        try {
+          await navigator.clipboard.writeText(JSON.stringify(latestPayload, null, 2));
+          copyResultBtn.textContent = "Copied";
+          setTimeout(() => (copyResultBtn.textContent = "Copy response"), 1600);
+        } catch {
+          copyResultBtn.textContent = "Copy failed";
+          setTimeout(() => (copyResultBtn.textContent = "Copy response"), 1600);
+        }
+      });
+
+      shareResultBtn?.addEventListener("click", async () => {
+        if (!latestPayload) {
+          return;
+        }
+        const markdown = `## Hexa AI Response\n\n\`\`\`json\n${JSON.stringify(latestPayload, null, 2)}\n\`\`\``;
+        try {
+          await navigator.clipboard.writeText(markdown);
+          shareResultBtn.textContent = "Markdown copied";
+          setTimeout(() => (shareResultBtn.textContent = "Copy markdown"), 1600);
+        } catch {
+          shareResultBtn.textContent = "Copy failed";
+          setTimeout(() => (shareResultBtn.textContent = "Copy markdown"), 1600);
+        }
+      });
+
+      copyCommandBtn?.addEventListener("click", async () => {
+        if (!localCommand) {
+          return;
+        }
+        try {
+          await navigator.clipboard.writeText(localCommand.textContent || "");
+          copyCommandBtn.textContent = "Copied";
+          setTimeout(() => (copyCommandBtn.textContent = "Copy command"), 1600);
+        } catch {
+          copyCommandBtn.textContent = "Copy failed";
+          setTimeout(() => (copyCommandBtn.textContent = "Copy command"), 1600);
+        }
+      });
+
+      copyLocalLinkBtn?.addEventListener("click", async () => {
+        if (!localHostLink) {
+          return;
+        }
+        try {
+          await navigator.clipboard.writeText(localHostLink.textContent || "");
+          copyLocalLinkBtn.textContent = "Copied";
+          setTimeout(() => (copyLocalLinkBtn.textContent = "Copy link"), 1600);
+        } catch {
+          copyLocalLinkBtn.textContent = "Copy failed";
+          setTimeout(() => (copyLocalLinkBtn.textContent = "Copy link"), 1600);
+        }
+      });
+
+      setFunction("auto");
+      applySkin("hybrid");
+      syncLocalLaunchPanel();
+      resetPipeline();
+    </script>
+  </body>
+</html>
